@@ -354,7 +354,7 @@ class MainActivity : Activity() {
         val fromHeader = contentDisposition?.substringAfter("filename=", "")?.trim('"', ' ', ';')
         val fromUrl = Uri.parse(url).lastPathSegment
         val candidate = fromHeader?.takeIf { it.isNotBlank() } ?: fromUrl ?: "photocraft-download.bin"
-        return candidate.substringAfterLast('/').substringAfterLast('\\\\')
+        return candidate.substringAfterLast('/').substringAfterLast('\\')
             .replace(Regex("[^A-Za-z0-9._ -]"), "_").take(100).ifBlank { "photocraft-download.bin" }
     }
 
@@ -376,7 +376,7 @@ class MainActivity : Activity() {
         @JavascriptInterface
         fun saveBlob(filename: String, mimeType: String, base64Data: String) {
             try {
-                val safeName = filename.substringAfterLast('/').substringAfterLast('\\\\')
+                val safeName = filename.substringAfterLast('/').substringAfterLast('\\')
                     .replace(Regex("[^A-Za-z0-9._ -]"), "_").take(100).ifBlank { "PhotoCraft-export.png" }
                 val bytes = Base64.decode(base64Data, Base64.DEFAULT)
                 val values = ContentValues().apply {
