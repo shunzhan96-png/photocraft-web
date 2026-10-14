@@ -27,8 +27,15 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Android SDK and NDK
-        uses: android-actions/setup-android@v3
+      - name: Configure preinstalled Android NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d "$ANDROID_HOME/ndk"
+          NDK_VERSION="$(ls "$ANDROID_HOME/ndk" | sort -V | tail -n 1)"
+          test -n "$NDK_VERSION"
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VERSION" >> "$GITHUB_ENV"
+          echo "Using Android NDK $NDK_VERSION"
 
       - name: Set up Rust toolchain
         uses: dtolnay/rust-toolchain@stable
