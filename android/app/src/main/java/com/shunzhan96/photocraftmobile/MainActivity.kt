@@ -145,7 +145,7 @@ class MainActivity : Activity() {
             setOnClickListener { shareWithAi() }
         }, LinearLayout.LayoutParams(-1, -2))
         content.addView(TextView(this).apply {
-            text = "当前版本说明\\n• AI 在你选择的外部 AI 应用中分析照片，不需要在本 App 内配置 API。\\n• PhotoCraft 编辑器仍在本机浏览器内核中运行。\\n• 本版不会擅自替你执行编辑。AI 给出方案后，你确认方向并按步骤操作。直接驱动编辑器的自动化还需要额外验证。\\n• 编辑器加载或保存异常时，可点顶部「Chrome 打开」使用你已经验证过的手机浏览器。"
+            text = "当前版本说明\n• AI 在你选择的外部 AI 应用中分析照片，不需要在本 App 内配置 API。\n• PhotoCraft 编辑器仍在本机浏览器内核中运行。\n• 本版不会擅自替你执行编辑。AI 给出方案后，你确认方向并按步骤操作。直接驱动编辑器的自动化还需要额外验证。\n• 编辑器加载或保存异常时，可点顶部「Chrome 打开」使用你已经验证过的手机浏览器。"
             textSize = 13f
             setTextColor(MUTED)
             setPadding(0, dp(18), 0, 0)
@@ -288,7 +288,7 @@ class MainActivity : Activity() {
     private fun shareWithAi() {
         val goal = goalInput.text.toString().trim()
         val prompt = "你现在是我的 PhotoCraft AI 创意导演与修图教练。请先分析我分享的参考照片，结合我的目标提出 2–3 个真正不同的创意方向，并说明各自效果、适用场景、风险和难度。第一轮先不要给冗长的操作清单，也不要直接替我决定。等我确认方向后，再按手机端 PhotoCraft 的实际界面，每次给不超过 3–5 个可执行步骤，写清目的、要寻找的工具、观察标准和如何回退。不要编造没有确认的菜单或按钮；如果不确定，请先问我或让我发界面截图。不要声称你已操作编辑器。" +
-            if (goal.isNotBlank()) "\\n\\n我的创作目标：" + goal else "\\n\\n如果我没有补充目标，请先根据照片本身给出适合的创作方向。"
+            if (goal.isNotBlank()) "\n\n我的创作目标：" + goal else "\n\n如果我没有补充目标，请先根据照片本身给出适合的创作方向。"
         val uri = selectedImageUri
         val share = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_TEXT, prompt)
