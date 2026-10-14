@@ -12,7 +12,7 @@ fn adjust_png(input: &[u8], brightness: i32, contrast: i32) -> Result<Vec<u8>, S
 
     // Choose a matching extension because PhotoCraft's import pipeline uses the filename
     // to select a decoder. Android photo pickers commonly return JPEG or PNG bytes.
-    let input_name = if input.starts_with(b"\\x89PNG\\r\\n\\x1a\\n") {
+    let input_name = if input.starts_with(b"\x89PNG\r\n\x1a\n") {
         "mobile-input.png"
     } else if input.starts_with(&[0xFF, 0xD8, 0xFF]) {
         "mobile-input.jpg"
