@@ -81,6 +81,7 @@ class MainActivity : Activity() {
         nav.addView(navButton("编辑器") { showEditor() }, weightedParams())
         nav.addView(navButton("AI 创意导演") { showDirector() }, weightedParams())
         nav.addView(navButton("Chrome 打开") { openInChrome() }, weightedParams())
+        nav.addView(navButton("原生测试") { startActivity(Intent(this, NativeEngineTestActivity::class.java)) }, weightedParams())
         header.addView(nav, LinearLayout.LayoutParams(-1, -2))
         root.addView(header, LinearLayout.LayoutParams(-1, -2))
 
