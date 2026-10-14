@@ -2,6 +2,10 @@ name: Build PhotoCraft Android APK
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - "android/**"
+      - ".github/workflows/android-apk.yml"
   push:
     paths:
       - "android/**"
@@ -29,6 +33,7 @@ jobs:
           gradle-version: "8.9"
 
       - name: Build debug APK
+        working-directory: android
         run: gradle :app:assembleDebug --no-daemon
 
       - name: Upload APK
