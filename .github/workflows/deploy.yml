@@ -1,0 +1,55 @@
+name: Deploy PhotoCraft Web to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Download official PhotoCraft web release
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/photocraft-release site
+          curl --fail --location --retry 3 \
+            https://github.com/storytold/photocraft/releases/download/v0.8.2/photocraft-web-0.8.2.zip \
+            --output /tmp/photocraft-web.zip
+          unzip -q /tmp/photocraft-web.zip -d /tmp/photocraft-release
+          index_file="$(find /tmp/photocraft-release -type f -name index.html -print -quit)"
+          if [ -z "$index_file" ]; then
+            echo "Official release ZIP did not contain index.html" >&2
+            exit 1
+          fi
+          site_root="$(dirname "$index_file")"
+          cp -a "$site_root"/. site/
+          touch site/.nojekyll
+          test -s site/index.html
+          echo "Prepared static site from: $site_root"
+          find site -maxdepth 2 -type f -printf '%P (%s bytes)\n' | sort
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
